@@ -14,7 +14,6 @@ Features
 -   Feed management (add / remove / rename)
 -   SQLite-backed episode tracking
 -   Flexible downloads (latest / all / by ID / since date)
--   Parallel downloads
 -   Queue system
 -   Playlist support (M3U export)
 -   Full-text search (FTS5 optional)
@@ -108,3 +107,6 @@ Version
 Changelog
 
 podcast –changes
+
+## COMING SOON ##
+-   Parallel downloads
