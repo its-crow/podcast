@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 3/28/26
+- new flags for ease of use
+
 ## [0.3] - 2026-03-17
 
 ### Added
