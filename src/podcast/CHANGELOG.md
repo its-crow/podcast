@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 0.5.1 - 4/12/26
+
+Dev:
+- Updated pyproject.toml and packaging
+- Bumped version to 0.5.1
+- GitHub tag v0.5.1
+
+---
+
 ## 4/11/26
 v0.4
 
@@ -33,7 +42,7 @@ Dev:
 - removed setup.py
 - added version tag v0.4
 
-
+---
 
 ## [0.3] - 2026-03-17
 - refer to README.md for all features previous to v0.4
