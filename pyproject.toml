@@ -16,5 +16,5 @@ dependencies = [
 [project.scripts]
 podcast = "podcast.podcast:main"
 
-[tool.setuptools]
-packages = ["podcast"]
+[tool.setuptools.packages.find]
+where = ["src"]
