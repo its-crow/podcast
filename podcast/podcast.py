@@ -1420,26 +1420,23 @@ def cmd_opml_export(args):
 # ---------- yt-dlp helpers ----------
 
 
-def run_yt_dlp(link: str, video: bool, out_dir: str):
-    """Invoke yt-dlp to download a link as audio (default) or video.
-    Requires `yt-dlp` to be available on PATH. Raises on failure.
-    """
+def run_yt_dlp(link: str, video: bool, out_dir: str, cookies_browser=None, js_runtime=None):
+    """Invoke yt-dlp to download a link as audio (default) or video."""
+    
+    # if flag is left empty, default to growser and runtime
+    cookies_browser = cookies_browser or "firefox"
+    js_runtime = js_runtime or "node"
+    
     out_dir = os.path.expanduser(out_dir)
     os.makedirs(out_dir, exist_ok=True)
-    # filename template: title + id to avoid collisions
+
     template = "%(title).120s-%(id)s.%(ext)s"
 
     if video:
         args = [
             "yt-dlp",
-            "-f", "bestvideo*+bestaudio/best",
-            "--merge-output-format", 
-            "mp4",
-            "-P", 
-            out_dir,
-            "-o", 
-            template,
-            link,
+            "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]",
+            "--merge-output-format", "mp4",
         ]
     else:
         args = [
@@ -1450,16 +1447,36 @@ def run_yt_dlp(link: str, video: bool, out_dir: str):
             "--audio-quality", "0",
             "--embed-metadata",
             "--embed-thumbnail",
-            "-P", out_dir,
-            "-o", template,
-            link,
         ]
+
+    # common args
+    args += [
+        "-P", out_dir,
+        "-o", template,
+    ]
+
+
+    if cookies_browser:
+        args += ["--cookies-from-browser", cookies_browser]
+
+    if js_runtime:
+        args += ["--js-runtimes", js_runtime]
+
+    # optional: reduce 429 issues
+    args += [
+        "--sleep-requests", "1",
+        "--sleep-interval", "1",
+        "--max-sleep-interval", "3",
+    ]
+
+    args.append(link)
+
     try:
         eprint("Running:", " ".join(args))
         subprocess.check_call(args)
     except FileNotFoundError:
         raise SystemExit(
-            "yt-dlp not found. Install it, e.g. `pipx install yt-dlp` or your package manager."
+            "yt-dlp not found. Install it, e.g. `pipx install yt-dlp`."
         )
     except subprocess.CalledProcessError as e:
         raise SystemExit(f"yt-dlp failed with exit code {e.returncode}.")
@@ -1470,7 +1487,13 @@ def cmd_download_yt(args):
     if not link:
         raise SystemExit("Provide --link URL")
     out_dir = get_setting("download_yt_dir", DEFAULT_YT_DIR)
-    run_yt_dlp(link=link, video=args.video, out_dir=out_dir)
+    run_yt_dlp(
+        link=link,
+        video=args.video,
+        out_dir=out_dir,
+        cookies_browser=args.cookies_browser,
+        js_runtime=args.js_runtime,
+    )
     print(
         f"Saved to {os.path.abspath(os.path.expanduser(out_dir))} (mode: {'video' if args.video else 'audio-only'})"
     )
@@ -1723,6 +1746,13 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Download full video instead of extracting audio",
     )
+    
+    # TODO add cookies from browser
+    p.add_argument("--cookies-from-browser", dest="cookies_browser")
+    
+    ## TODO add JS runtime call so you don't look like a bot
+    p.add_argument("--js-runtime", dest="js_runtime")
+    
     p.set_defaults(func=cmd_download_yt)
 
     # OPML import/export
