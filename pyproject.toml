@@ -1,12 +1,13 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "podcast"
 version = "0.4.0"
-description = "RSS-first podcast + yt-dlp CLI"
+description = "RSS-first podcast downloader with queues and yt-dlp integration"
 authors = [{ name = "crow" }]
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "yt-dlp"
@@ -14,3 +15,6 @@ dependencies = [
 
 [project.scripts]
 podcast = "podcast.podcast:main"
+
+[tool.setuptools]
+packages = ["podcast"]
