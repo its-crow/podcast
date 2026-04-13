@@ -83,13 +83,18 @@ podcast refresh --all
 ### Downloads
 
 podcast download --feed <name>
+
 podcast download-title --feed <name> --title "keyword"
 
 Options:
 --latest N
+
 --all
+
 --ids 1,2,3
+
 --since YYYY-MM-DD
+
 --jobs N
 
 ---
@@ -97,7 +102,9 @@ Options:
 ### Search
 
 podcast search --feed <name> --query "keyword"
+
 podcast search-all --query "keyword"
+
 podcast search-all --query "keyword" --fts
 
 ---
@@ -105,9 +112,13 @@ podcast search-all --query "keyword" --fts
 ### Queue
 
 podcast queue-add --feed <name> --episode-id <id>
+
 podcast queue-list
+
 podcast queue-download
+
 podcast queue-remove --queue-id <id>
+
 podcast queue-reset
 
 ---
@@ -115,8 +126,11 @@ podcast queue-reset
 ### Playlists
 
 podcast playlist create mylist
+
 podcast playlist add mylist --episode-id <id>
+
 podcast playlist show mylist
+
 podcast playlist export mylist --out playlist.m3u
 
 ---
@@ -124,10 +138,12 @@ podcast playlist export mylist --out playlist.m3u
 ### yt-dlp Integration
 
 podcast download-yt --link <url>
+
 podcast download-yt --link <url> --video
 
 Optional flags:
 --cookies-from-browser <browser> (default: firefox)
+
 --js-runtime <runtime> (default: node)
 
 This fixes YouTube blocking issues and supports proper audio/video download.
@@ -137,6 +153,7 @@ This fixes YouTube blocking issues and supports proper audio/video download.
 ### OPML
 
 podcast opml import feeds.opml
+
 podcast opml export feeds.opml
 
 ---
@@ -144,9 +161,11 @@ podcast opml export feeds.opml
 ### Settings
 
 podcast set --download-dir ~/pods
+
 podcast set --download-yt-dir ~/yt
 
 podcast set --change-feed-dir tdz --dir ~/custom/tdz
+
 podcast set --unset-feed-dir tdz
 
 podcast set --show
@@ -156,9 +175,13 @@ podcast set --show
 ### Utility
 
 podcast info <feed>
+
 podcast clean <feed>
+
 podcast dirs
+
 podcast --changes
+
 podcast --version
 
 ---
@@ -166,7 +189,9 @@ podcast --version
 ## Storage
 
 Config: PODFILE.ini
+
 Database: SQLite
+
 Audio: per-feed directories
 
 ---
